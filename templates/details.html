@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="sheet">
+  <div class="sheet-grab"></div>
+  <div class="sheet-banner">
+    {% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.title }}">{% endif %}
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"></circle><path d="M10 8.5l6 3.5-6 3.5z"></path></svg>
+  </div>
+  <div class="sheet-body">
+    <h1>{{ item.title }}</h1>
+    <div class="meta-row">
+      <span class="year">{{ item.year }}</span>
+      <span class="badge">HD</span>
+      <span>{{ item.duration }}</span>
+      <span>{{ item.genre }}</span>
+      {% if is_premium %}<span class="badge premium">PREMIUM</span>{% endif %}
+    </div>
+    <p class="desc">{{ item.subtitle }}</p>
+
+    {% if item.director or item.cast_list or item.studio %}
+    <dl class="fact-grid">
+      {% if item.director %}<dt>Director</dt><dd>{{ item.director }}</dd>{% endif %}
+      {% if item.cast_list %}<dt>Cast</dt><dd>{{ item.cast_list }}</dd>{% endif %}
+      {% if item.studio %}<dt>Studio</dt><dd>{{ item.studio }}</dd>{% endif %}
+      <dt>Shelf</dt><dd>{{ item.shelf }}</dd>
+    </dl>
+    {% endif %}
+
+    <div class="sheet-actions">
+      <a class="btn btn-primary" style="flex:1;justify-content:center" href="/watch/{{ item.id }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg>
+        Play
+      </a>
+    </div>
+
+    <div class="sheet-actions" style="margin-top:10px">
+      <form method="post" action="/title/{{ item.id }}/downloads">
+        <button class="btn btn-ghost btn-block" type="submit">
+          {{ 'In Downloads' if in_downloads else 'Add to Downloads' }}
+        </button>
+      </form>
+      <form method="post" action="/title/{{ item.id }}/my_list">
+        <button class="btn btn-ghost btn-block" type="submit">
+          {{ 'In My List' if in_list else 'My List' }}
+        </button>
+      </form>
+    </div>
+
+    <p class="hint" style="margin-top:18px">
+      Stream source: {{ item.stream_url or 'none set' }}<br>
+      Published: {{ 'live' if item.is_published else 'queued for ' ~ item.release_date }}
+    </p>
+  </div>
+</div>
+{% endblock %}

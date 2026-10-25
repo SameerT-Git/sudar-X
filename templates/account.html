@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-label" style="margin-top:20px">Account</div>
+<div class="list">
+  <div class="tile"><span>Email</span><span class="value">{{ user.email }}</span></div>
+  <div class="tile"><span>Plan</span><span class="value">{{ user.subscription_tier }}</span></div>
+  <div class="tile"><span>Member since</span><span class="value">{{ user.created_at[:10] }}</span></div>
+  <div class="tile"><span>Account ID</span><span class="value">#{{ user.id }}</span></div>
+  <div class="tile"><span>Devices</span><span class="value">1 active stream</span></div>
+  <a class="tile" href="/settings"><span>Preferences</span><span class="value">›</span></a>
+  <a class="tile" href="/logout"><span style="color:#ff8a80">Sign Out</span><span class="value">›</span></a>
+</div>
+{% endblock %}

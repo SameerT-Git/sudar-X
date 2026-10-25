@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-label" style="margin-top:20px">{{ heading }} <small>{{ items|length }} TITLE{{ '' if items|length == 1 else 'S' }}</small></div>
+
+{% if items %}
+<div class="list">
+  {% for item in items %}
+  <div class="list-row">
+    <a href="/title/{{ item.id }}">
+      {% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy">{% else %}<div class="fallback">▶</div>{% endif %}
+    </a>
+    <div class="meta">
+      <a href="/title/{{ item.id }}"><strong>{{ item.title }}</strong></a>
+      <span>{{ item.year }} · {{ item.duration }} · {{ item.genre }}</span>
+    </div>
+    <form method="post" action="/{{ table }}/{{ item.id }}/remove">
+      <button class="icon-btn danger" type="submit">Remove</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">{{ empty }}</div>
+{% endif %}
+{% endblock %}

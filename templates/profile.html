@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile-head">
+  <div class="profile-avatar">{{ user.email[0]|upper }}</div>
+  <h2>{{ user.email.split('@')[0] }}</h2>
+  <p>{{ user.email }}</p>
+  <span class="tier-pill">{{ user.subscription_tier|upper }}</span>
+</div>
+
+<div class="list">
+  <a class="tile" href="/mylist"><span>My List</span><span class="value">{{ saved }} saved ›</span></a>
+  <a class="tile" href="/downloads"><span>Downloads</span><span class="value">{{ downloads }} titles ›</span></a>
+  <a class="tile" href="/settings"><span>App Settings</span><span class="value">›</span></a>
+  <a class="tile" href="/account"><span>Account</span><span class="value">{{ user.subscription_tier }} ›</span></a>
+  <a class="tile" href="/help"><span>Help &amp; Support</span><span class="value">›</span></a>
+  <a class="tile" href="/logout"><span style="color:#ff8a80">Sign Out</span><span class="value">›</span></a>
+</div>
+
+<div class="section-label" style="font-size:13px;margin-top:24px">SWITCH PLAN (TEST HARNESS)</div>
+<div class="list" style="padding:0 16px 24px">
+  {% for t in tiers %}
+  <form method="post" action="/profile/tier" style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)">
+    <div>
+      <strong style="font-size:13px">{{ t }}</strong>
+      <div class="hint" style="margin:2px 0 0">
+        {% if t == 'Basic' %}SD streaming, 1 device
+        {% elif t == 'Pro' %}Unlocks the Trending Now premium row
+        {% elif t == 'Premium' %}Downloads on 4 devices
+        {% else %}Everything, family sharing{% endif %}
+      </div>
+    </div>
+    <input type="hidden" name="tier" value="{{ t }}">
+    <button class="mini-btn {{ 'danger' if t == user.subscription_tier else '' }}" type="submit">
+      {{ 'Current' if t == user.subscription_tier else 'Switch' }}
+    </button>
+  </form>
+  {% endfor %}
+</div>
+{% endblock %}

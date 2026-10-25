@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-label" style="margin-top:20px">App Settings</div>
+<form method="post" action="/settings" class="form-wrap">
+  <div class="field">
+    <label>Cellular Data Usage</label>
+    <select name="cellular_data">
+      {% for option in ['Automatic', 'Wi-Fi Only', 'Off'] %}
+      <option value="{{ option }}" {{ 'selected' if user.cellular_data == option else '' }}>{{ option }}</option>
+      {% endfor %}
+    </select>
+    <div class="hint">Mirrors the Flutter settings sheet: Automatic, Wi-Fi Only or Off.</div>
+  </div>
+
+  <div class="field">
+    <label>Download Quality</label>
+    <select name="download_quality">
+      {% for option in ['Standard', 'High', 'Data Saver'] %}
+      <option value="{{ option }}" {{ 'selected' if user.download_quality == option else '' }}>{{ option }}</option>
+      {% endfor %}
+    </select>
+    <div class="hint">Stored per account now, instead of on the device.</div>
+  </div>
+
+  <button class="btn btn-primary btn-block" type="submit">Save Preferences</button>
+</form>
+{% endblock %}

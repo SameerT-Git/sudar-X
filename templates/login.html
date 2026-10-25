@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block body_class %}auth-body{% endblock %}
+{% block shell %}
+<div class="auth-screen">
+  <div class="auth-card">
+    <div class="logo">SudarX</div>
+    <div class="sub">ENTERTAINMENT</div>
+
+    {% if msg %}<div class="error-box">{{ msg }}</div>{% endif %}
+
+    <div class="auth-tabs">
+      <button type="button" class="on" id="tab-signin" onclick="showTab('signin')">Sign In</button>
+      <button type="button" id="tab-signup" onclick="showTab('signup')">Create Account</button>
+    </div>
+
+    <form method="post" action="/login" id="form-signin">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+    </form>
+
+    <form method="post" action="/signup" id="form-signup" style="display:none">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="At least 6 characters" autocomplete="new-password" required>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Create Account</button>
+    </form>
+
+    <div class="auth-links">
+      <form method="post" action="/reset" style="display:flex;gap:8px;align-items:center">
+        <input type="email" name="email" placeholder="email to reset" style="background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:#fff;font-size:11px;padding:6px 8px;width:150px">
+        <button type="submit">Forgot password?</button>
+      </form>
+      <a href="/admin/login">Admin</a>
+    </div>
+
+    <div class="demo-note">
+      Demo accounts seeded in the database:<br>
+      viewer@sudarx.com / Viewer@123 (Basic)<br>
+      pro@sudarx.com / Pro@12345 (Pro)<br>
+      admin@sudarx.com / Admin@123 (admin console)
+    </div>
+  </div>
+</div>
+<script>
+function showTab(which) {
+  const signin = document.getElementById('form-signin');
+  const signup = document.getElementById('form-signup');
+  const tabIn = document.getElementById('tab-signin');
+  const tabUp = document.getElementById('tab-signup');
+  const onSignin = which === 'signin';
+  signin.style.display = onSignin ? 'block' : 'none';
+  signup.style.display = onSignin ? 'none' : 'block';
+  tabIn.classList.toggle('on', onSignin);
+  tabUp.classList.toggle('on', !onSignin);
+}
+</script>
+{% endblock %}

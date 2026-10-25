@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} · SudarX{% endblock %}
+{% block body_class %}player-body{% endblock %}
+{% block shell %}
+<div class="player-screen" id="player" data-youtube="{{ '1' if is_youtube else '0' }}">
+  <div class="player-bar">
+    <a href="{{ back_url }}" aria-label="Back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="title">{{ page_title }}</span>
+    <span class="pill">{{ tier }}</span>
+  </div>
+
+  <div class="player-stage">
+    {% if is_youtube %}
+      <iframe src="{{ play_url }}" title="{{ page_title }}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    {% else %}
+      <video id="video" src="{{ play_url }}" controls autoplay playsinline preload="metadata"></video>
+    {% endif %}
+  </div>
+
+  <div class="player-controls">
+    <span>Playback speed</span>
+    <div class="speed-group" id="speeds">
+      {% for rate in [0.5, 0.75, 1.0, 1.25, 1.5, 2.0] %}
+        <button data-rate="{{ rate }}" class="{{ 'on' if rate == 1.0 else '' }}">{{ rate }}x</button>
+      {% endfor %}
+    </div>
+    <span id="timecode">--:--</span>
+    {% if end_action %}
+      <form method="post" action="{{ end_action }}"><button class="mini-btn" type="submit">End session</button></form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  const root = document.getElementById('player');
+  const isYouTube = root.dataset.youtube === '1';
+  const video = document.getElementById('video');
+  const timecode = document.getElementById('timecode');
+  let current = 1.0;
+
+  function fmt(seconds) {
+    if (!isFinite(seconds)) return '--:--';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+    const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return h > 0 ? h + ':' + m + ':' + s : m + ':' + s;
+  }
+
+  document.getElementById('speeds').addEventListener('click', function (event) {
+    const button = event.target.closest('button');
+    if (!button) return;
+    current = parseFloat(button.dataset.rate);
+    document.querySelectorAll('#speeds button').forEach(b => b.classList.toggle('on', b === button));
+    if (video) video.playbackRate = current;
+    if (isYouTube) {
+      // YouTube's iframe API needs a postMessage handshake; keep the UI honest
+      // rather than pretending the rate changed.
+      timecode.textContent = current + 'x set (YouTube iframe ignored it)';
+    }
+  });
+
+  if (video) {
+    video.addEventListener('timeupdate', function () {
+      timecode.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+    });
+    video.addEventListener('error', function () {
+      timecode.textContent = 'Playback failed';
+    });
+  } else {
+    timecode.textContent = 'YouTube embed';
+  }
+})();
+</script>
+{% endblock %}
