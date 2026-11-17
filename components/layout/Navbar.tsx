@@ -59,13 +59,13 @@ export default function Navbar() {
           <LanguageToggle className="hidden md:flex" />
 
           <Link
-            href="/login"
+            href="/Sign-In"
             className="hidden sm:inline-flex font-label-lg text-label-lg text-on-surface hover:text-primary transition-colors px-space-sm py-space-xs"
           >
             Login
           </Link>
           <Link
-            href="/sign-up"
+            href="/Sign-Up"
             className="font-label-lg text-label-lg bg-primary-container text-on-primary-container px-space-lg py-space-sm rounded-full shadow-[0_4px_16px_rgba(220,20,60,0.35)] hover:shadow-[0_6px_24px_rgba(220,20,60,0.6)] hover:brightness-110 transition-all font-semibold"
           >
             Sign Up
@@ -73,7 +73,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-space-sm ml-space-xs">
             <Link
-              href="/login"
+              href="/Sign-In"
               aria-label="Account"
               className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             >

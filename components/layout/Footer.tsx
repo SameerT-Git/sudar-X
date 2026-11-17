@@ -38,8 +38,8 @@ const FOOTER_COLUMNS: readonly FooterColumn[] = [
   {
     heading: "Account",
     links: [
-      { label: "Login", href: "/login" },
-      { label: "Sign Up", href: "/sign-up" },
+      { label: "Login", href: "/Sign-In" },
+      { label: "Sign Up", href: "/Sign-Up" },
       { label: "My List", href: "/my-list" },
       { label: "Manage Devices", href: "/manage-devices" },
       { label: "Gift Cards", href: "/gift-cards" },

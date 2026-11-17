@@ -1,11 +1,7 @@
 import type { ReactNode } from "react";
-import { Suspense } from "react";
 
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
 
 import "./globals.css";
 
@@ -36,17 +32,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col`}
       >
-        <Suspense
-          fallback={
-            <div className="fixed top-0 left-0 right-0 z-50 h-20 bg-surface/90 backdrop-blur-md" />
-          }
-        >
-          <Navbar />
-        </Suspense>
-
-        <main className="w-full flex-1 bg-background pt-20">{children}</main>
-
-        <Footer />
+        {children}
       </body>
     </html>
   );

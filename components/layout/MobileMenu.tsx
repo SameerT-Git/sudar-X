@@ -26,14 +26,14 @@ export default function MobileMenu({ id, onClose }: MobileMenuProps) {
 
           <div className="flex items-center gap-space-sm">
             <Link
-              href="/login"
+              href="/Sign-In"
               onClick={onClose}
               className="flex-1 text-center font-label-lg text-label-lg text-on-surface hover:text-primary px-space-sm py-space-sm rounded-full transition-colors"
             >
               Login
             </Link>
             <Link
-              href="/sign-up"
+              href="/Sign-Up"
               onClick={onClose}
               className="flex-1 text-center font-label-lg text-label-lg font-semibold bg-primary-container text-on-primary-container px-space-lg py-space-sm rounded-full shadow-[0_4px_16px_rgba(220,20,60,0.35)] hover:shadow-[0_6px_24px_rgba(220,20,60,0.6)] hover:brightness-110 transition-all"
             >
